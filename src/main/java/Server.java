@@ -38,7 +38,7 @@ public class Server {
                 final String requestMethod = data.getRequestMethod().toUpperCase();
                 switch (requestMethod) {
                     case METHOD_GET:
-                        final String responseBody = readingPorts.getSensorJson();
+                        final String responseBody = readingPorts.getData();
                         headers.set(HEADER_CONTENT_TYPE, String.format("application/json; charset=%s", CHARSET));
                         headers.add("Access-Control-Allow-Origin", "*");
                         headers.add("Access-Control-Allow-Credentials", "true"); // zeby bylo mozliwe pobieranie miedzy serwisami

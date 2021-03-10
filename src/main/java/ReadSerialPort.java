@@ -4,8 +4,9 @@ import com.fazecast.jSerialComm.*;
 
 public class ReadSerialPort {
 
-    public SerialPort comPort;
-    public InputStream in;
+    private SerialPort comPort;
+    private InputStream in;
+    private String data;
 
     public ReadSerialPort(){
         comPort = SerialPort.getCommPorts()[0];
@@ -13,6 +14,12 @@ public class ReadSerialPort {
         comPort.setBaudRate(115200); // Musi byc takie same jak czestotliwosc wysylania na port
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
         in = comPort.getInputStream();
+
+        Thread getStream = new Thread(() -> {
+            while(true) data = getSensorJson();
+        });
+
+        getStream.start();
     }
 
     public String getSensorJson(){
@@ -36,8 +43,14 @@ public class ReadSerialPort {
 
                 return result;
             }
-            in.close();
+            //in.close();
         } catch (Exception e) { e.printStackTrace();}
         return null;
     }
+
+    public String getData() {
+        return data;
+    }
+
+
 }
